@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="js/echarts.min.js"></script>
+	</head>
+	<body>
+		<div id="my" style="width: 600px;height: 400px;"></div>
+		
+		<script>
+			var myChart = echarts.init(document.getElementById('my'));
+			
+			var Data=[{name: '星期一',value: 200},{name: '星期二',value: 2780},{name: '星期三',value: 1200},
+					{name: '星期四',value: 700},{name: '星期五',value: 100},{name: '星期六',value: 3200},{name: '星期日',value: 4780},];
+			
+			var option = {
+				//标题
+				title: {
+					text: '一周支出明细',
+					link: 'http://baidu.com',
+					textStyle: {
+						color: 'pink',
+						fontSize: 20,
+						fontWeight: 'bolder'
+					},
+					borderWidth: 2,
+					borderColor: 'purple',
+					borderRadius: 5
+				},
+				//数据提示
+				tooltip: {
+					trigger: 'item'
+				},
+				//工具栏
+				toolbox: {
+					feature: {
+						saveAsImage:{},//导出图片
+						dataView:{},//数据视图
+						restore:{},//重置
+						dataZoom:{}//区域缩放、还原
+					}
+				},
+				//数据筛选
+				legend: {
+					data:['一周支出/元']
+				},
+				//数据呈现
+				series: [
+					{
+						name: '一周支出/元',
+						type: 'pie',
+						data: Data,
+						//数据提示内容
+						label: {
+							show: true,
+							formatter: function(arg){
+								return arg.name + '支出' + arg.value + '元\n占比' + arg.percent + '%'; 
+							}
+						},
+						// //圆环效果
+						// radius: ['50%','80%'],
+						// //南丁格尔图效果
+						// roseType: 'radius',
+						//选中偏离效果
+						selectedMode: 'single',
+						//选中偏移距离
+						selectedOffset: 30
+					}
+				]
+			};
+			
+			myChart.setOption(option);
+		</script>
+	</body>
+</html>

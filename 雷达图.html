@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="js/echarts.min.js"></script>
+	</head>
+	<body>
+		<div id="my" style="width: 600px;height: 400px;"></div>
+		
+		<script>
+			var myChart = echarts.init(document.getElementById('my'));
+			
+			var phoneData=[
+				{name:'华为手机',value:[89,90,91,96,99]},
+				{name:'小米手机',value:[79,80,92,77,88]},
+				{name:'苹果手机',value:[59,40,61,56,69]}
+			];
+			var propertyData=[
+				{name:'易用性',max:100},
+				{name:'功能性',max:100},
+				{name:'拍照性',max:100},
+				{name:'跑分性',max:100},
+				{name:'续航性',max:100}
+			];
+			
+			var option = {
+				title: {
+					text: '手机性能对比分析'
+				},
+				tooltip: {
+					trigger: 'item'
+				},
+				toolbox: {
+					feature: {
+						saveAsImage:{},//导出图片
+						dataView:{},//数据视图
+						restore:{},//重置
+						dataZoom:{}//区域缩放、还原
+					}
+				},
+				//数据筛选
+				legend: {
+					data:['性能对比']
+				},
+				radar: {
+					indicator: propertyData,
+					shape: 'circle'//展示形式(polygon、circle)
+				},
+				series: [
+					{
+						name:'性能对比',
+						type: 'radar',
+						data: phoneData,
+						areaStyle:{},//填充颜色
+					}
+				]
+			};
+			
+			myChart.setOption(option);
+		</script>
+	</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="js/echarts.min.js"></script>
+	</head>
+	<body>
+		<div id="my" style="width: 600px;height: 400px;"></div>
+		
+		<script>
+			var myChart = echarts.init(document.getElementById('my'),'dark');
+			
+			var Data=[{name: '车速(Km/h)', value: '66'}]
+			
+			var option = {
+				title: {
+					text: '车速表'
+				},
+				tooltip: {
+					trigger: 'item',
+					formatter: '{a} <br/>{b} : {c}'
+				},
+				toolbox: {
+					feature: {
+						saveAsImage:{},//导出图片
+						dataView:{},//数据视图
+						restore:{},//重置
+						dataZoom:{}//区域缩放、还原
+					}
+				},
+				//数据筛选
+				legend: {
+					data:['当前车速']
+				},
+				series: [
+					{
+						name:'当前车速',
+						type: 'gauge',
+						data: Data,
+						detail: {formatter: '{value}Km/h'},
+						min: 0,
+						max: 220
+					}
+				]
+			};
+			
+			myChart.setOption(option);
+		</script>
+	</body>
+</html>

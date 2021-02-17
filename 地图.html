@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="js/echarts.min.js"></script>
+		<script src="js/jquery-1.8.0.min.js"></script>
+	</head>
+	<body>
+		<div id="my" style="width: 100%;height:700px;border:2px aqua solid;"></div>
+		
+		<script>
+			var myChart = echarts.init(document.getElementById('my'));
+			
+			var airData=[
+				{name:'北京市',value:39},
+				{name:'天津市',value:31},
+				{name:'上海市',value:139},
+				{name:'重庆市',value:49},
+				{name:'河北省',value:19},
+				{name:'河南省',value:29},
+				{name:'云南省',value:59},
+				{name:'辽宁省',value:35},
+				{name:'黑龙江省',value:68},
+				{name:'湖南省',value:110},
+				{name:'安徽省',value:189},
+				{name:'山东省',value:92},
+				{name:'浙江省',value:267},
+				{name:'新疆维吾尔自治区',value:139},
+				{name:'西藏自治区',value:239},
+				{name:'青海省',value:129},
+				{name:'甘肃省',value:159},
+				{name:'内蒙古自治区',value:199},
+				{name:'宁夏回族自治区',value:259},
+				{name:'四川省',value:99},
+				{name:'山西省',value:70},
+				{name:'陕西省',value:231},
+				{name:'湖北省',value:84},
+				{name:'贵州省',value:187},
+				{name:'江西省',value:139},
+				{name:'海南省',value:130},
+				{name:'广东省',value:2019},
+				{name:'西壮族自治区',value:20},
+				{name:'吉林省',value:220},
+				{name:'江苏省',value:120},
+				{name:'福建省',value:98},
+				{name:'台湾省',value:52},
+				{name:'广西壮族自治区',value:52}
+			];
+			
+			var scatterData=[
+				{
+					value: [121.509062,25.044332]
+				}
+			];
+			
+			$.get('json/map/china.json',function(ret){
+				echarts.registerMap('chinaMap',ret);
+				var option = {
+					geo: {
+						type: 'map',
+						map: 'chinaMap',//绑定的数据
+						roam: true,//可以拖动缩放
+						label: {
+							show: false//显示标签
+						},
+						zoom: 1.5,//初始化大小比例
+						center: [121.509062,25.044332]//地图中心坐标的设置
+					},
+					tooltip: {
+						trigger: 'item'
+					},
+					//绑定空气质量数据
+					series: [
+						{
+							data: airData,
+							geoIndex: 0,
+							type: 'map'
+						},
+						{
+							data: scatterData,
+							type: 'effectScatter',
+							coordinateSystem: 'geo',
+							rippleEffect:{
+								scale: 10,
+							},
+							itemStyle: {//控制散点颜色
+								color: 'green',
+							}
+						}
+					],
+					//设置可视化
+					visualMap: {
+						min: 0,
+						max: 300,
+						inRange:{//颜色渐变
+							color: ['white','red']
+						},
+						calculable: true//设置可选
+					}
+				};
+				
+				myChart.setOption(option);
+			})
+		</script>
+	</body>
+</html>

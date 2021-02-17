@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="js/echarts.min.js"></script>
+	</head>
+	<body>
+		<div id="my" style="width: 600px;height: 400px;"></div>
+		
+		<script>
+			var myChart = echarts.init(document.getElementById('my'));
+			
+			var Data=[[150,45],[160,55],[170,65],[180,70],[185,70],[190,75],[196,85],[200,80],[205,100],[220,103],
+					[135,55],[150,50],[160,65],[185,70],[177,60],[200,75],[183,78],[193,60],[169,65],[179,70]];
+			
+			var option = {
+				title: {
+					text: '身高、体重比例',
+					link: 'http://baidu.com',
+					textStyle: {
+						color: 'pink',
+						fontSize: 20,
+						fontWeight: 'bolder'
+					},
+					borderWidth: 2,
+					borderColor: 'purple',
+					borderRadius: 5,
+					left: 0,
+					top: 0
+				},
+				tooltip: {//提示框
+					padding: 10,
+					formatter: function (obj) {
+						var value = obj.value;
+						return '身高：' + value[0] + 'cm<br>' + '体重：' + value[1] + 'kg<br>';
+					}
+				},
+				dataZoom: [//区域缩放器
+					{
+						type: 'slider',//区域缩放（1:slider,2:inside）
+						xAxisIndex: 0
+					},
+					{
+						type: 'slider',//区域缩放（1:slider,2:inside）
+						yAxisIndex: 0
+					}
+				],
+				toolbox: {//工具条
+					feature: {
+						saveAsImage:{},//导出图片
+						dataView:{},//数据视图
+						restore:{},//重置
+						dataZoom:{},//区域缩放、还原
+						magicType:{type:['scatter']}//图表类型转化
+					}
+				},
+				legend: {//数据筛选
+					data:['身高体重']
+				},
+				grid: {//边框网格设置
+					show: true,
+					borderWidth: 10,
+					borderColor: 'pink'
+				},
+				xAxis: {
+					type: 'value',
+					scale: true,
+					position: 'bottom'
+				},
+				yAxis: {
+					type: 'value',
+					scale: true,
+					position: 'left'
+				},
+				series: [
+					{
+						name: ['身高体重'],
+						type: 'effectScatter',//动画效果（1:effectScatter,2:scatter）
+						showEffectOn: 'emphasis',//展示方式（1:render,2:emphasis）
+						rippleEffect: {//效果规模大小
+							scale:10
+						},
+						data: Data,
+						symbolSize: function(arg){//控制散点大小
+							var height = arg[0] / 100;
+							var weight = arg[1];
+							var bmi = weight / (height * height);//肥胖计算公式
+							if(bmi > 28){
+								return 10;
+							}
+							return 5;
+						},
+						itemStyle: {//控制散点颜色
+							color: function(arg){
+								var height = arg.data[0] / 100;
+								var weight = arg.data[1];
+								var bmi = weight / (height * height);//肥胖计算公式
+								if(bmi > 28){
+									return 'red';
+								}
+								return 'green';
+							}
+						}
+					}
+				]
+			};
+			
+			myChart.setOption(option);
+		</script>
+	</body>
+</html>
